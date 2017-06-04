@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Admin page</title>
+{% endblock %}
+
+{% block menu %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'registration' %}">Registration</a></li>
+        <li><a href="/">Take a quiz</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="colon-md-6">
+            <ul id="users">
+                {% for user in users %}
+                    <li>{{ user }}
+                        <button type="button" class="btn btn-default" aria-label="Edit">
+                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>
+                        </button>
+                        <a href="delete/user/{{ user.id }}" class="btn btn-default">
+                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

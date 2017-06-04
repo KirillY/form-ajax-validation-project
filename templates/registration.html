@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Registration</title>
+{% endblock %}
+
+{% block menu %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Log in</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" role="form" action="{% url 'registration' %}">
+            {% include "included-reg-form.html" %}
+            <input type="submit" value="Create new account">
+        </form>
+    </div>
+{% endblock %}
