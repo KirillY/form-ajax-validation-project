@@ -54,15 +54,15 @@ def logout(request):
 
 def registration(request):
     if request.method == 'POST':  # if user POST from the registration page
-        form = MyRegistrationForm(request.POST) # pass form data to the form
+        form = MyRegistrationForm(request.POST) # create form object with arguments came from POST
         print(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
-        context = {'form': form}
-        return render(request, 'registration.html', context)  #
+            form.save() # put form data into database
+            return HttpResponseRedirect('/') # render index.html
+        context = {'form': form} # create context with form data and errors
+        return render(request, 'registration.html', context)  # render data and errors on the page
     context = {'form': MyRegistrationForm()} # if user request registration form page first time with GET request
-    return render(request, 'registration.html', context) # return template with form widgets
+    return render(request, 'registration.html', context) # return template with a form without arguments
 
 
 @user_passes_test(lambda u: u.is_superuser)
