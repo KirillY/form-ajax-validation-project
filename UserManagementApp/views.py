@@ -65,6 +65,31 @@ def registration(request):
     return render(request, 'registration.html', context) # return template with a form without arguments
 
 
+def create_user(request, user_id=None):
+    """
+    Создает Пользователя(User)
+    Или редактирует существующего, если указан  user_id
+    """
+    if request.is_ajax():
+        print('user_id = ', user_id)
+        if not user_id:
+            print('Not user_id')
+            user = User(request.POST)
+        else:
+            user = get_object_or_404(User, id=user_id)
+            user = UserChangeForm(request.POST or None, instance=user)
+        if user.is_valid():
+            user.save()
+            users = User.objects.all()
+            html = loader.render_to_string('inc-users_list.html', {'users': users}, request=request)
+            data = {'errors': False, 'html': html}
+            return JsonResponse(data)
+        else:
+            errors = user.errors.as_json()
+            return JsonResponse({'errors': errors})
+
+    raise Http404
+
 @user_passes_test(lambda u: u.is_superuser)
 def admin_page(request):
     users = User.objects.all()

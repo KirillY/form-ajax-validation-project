@@ -7,25 +7,22 @@ class MyRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs) # override class
         self.fields.pop('password2') # remove default password2 field from the form
-        self.fields['password1'].label = "Пароль"
+        # self.fields['password1'].label = "Пароль" # more visual to override with other class variables below
+        self.fields['username'].widget.attrs['placeholder'] = 'Begin with an English letter'
+        self.fields['email'].widget.attrs['placeholder'] = 'Valid email address'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Russian letters only'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Russian letters only'
+        self.fields['password1'].widget.attrs['placeholder'] = 'More than 5 symbols'
 
+    username = forms.CharField(required=True, label="Никнейм")
     email = forms.EmailField(required=True, label="Электронная почта")
     first_name = forms.CharField(required=False, label="Имя")
     last_name = forms.CharField(required=False, label="Фамилия")
+    password1 = forms.CharField(required=True, label="Пароль")
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email') # define from fields
-        # self.fields['email'].label = "Электронная почта"
-        labels = { # override fields labels: "field_name":"new_label_name"
-            "username": "Никнейм",
-            "first_name": ("Имя"),
-            "last_name": "Фамилия",
-            "email":"Электронная почта",
-            "password": "Пароль"
-        }
-
-
 
     def save(self, commit=True):
         user = super(MyRegistrationForm, self).save(commit=False)
