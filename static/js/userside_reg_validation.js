@@ -1,18 +1,18 @@
-//var csrftoken = $.cookie('csrftoken');
-var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
+////var csrftoken = $.cookie('csrftoken');
+//var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
+//
+//function csrfSafeMethod(method) {
+//    // these HTTP methods do not require CSRF protection
+//    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+//}
+//
+//$.ajaxSetup({
+//    beforeSend: function(xhr, settings) {
+//        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+//            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+//        }
+//    }
+//});
 
 // true if first symbol is a-z or A-Z letter
 jQuery.validator.addMethod("rulettersonly", function(value, element) {
@@ -25,7 +25,7 @@ jQuery.validator.addMethod("letterfirstonly", function(value, element) {
 }, "First symbol letter only please");
 
 $(document).ready(function() {
-    $('#user-form').validate({
+    $('#user-form').validate({ //address to user-form
     rules: {
          username: {
              required: true,
@@ -35,7 +35,7 @@ $(document).ready(function() {
              required: false,
              rulettersonly: true
          },
-         second_name: {
+         last_name: {
              required: false,
              rulettersonly: true
          },
@@ -56,7 +56,7 @@ $(document).ready(function() {
              required: false,
              rulettersonly: "Необходимо использовать только буквы русского алфавита"
          },
-         second_name: {
+         last_name: {
              required: false,
              rulettersonly: "Необходимо использовать только буквы русского алфавита"
          },
