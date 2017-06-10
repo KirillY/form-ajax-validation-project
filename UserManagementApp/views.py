@@ -59,6 +59,25 @@ def check_nickname(request):
         return HttpResponse(is_available)
     raise Http404
 
+def check_email(request):
+    '''
+    check if email is available in existing database
+    :param request: AJAX request
+    :return: "true" in the response body if email is available, "false" otherwise
+    '''
+    # print(request.GET)
+    if request.is_ajax():
+        is_available = "false"
+        if request.is_ajax():
+            email = request.GET.get("email") # get email from the request QueryDict
+            try:
+                # User.objects.get_by_natural_key(email)
+                User.objects.get(email=email)
+            except ObjectDoesNotExist: # import ObjectDoesNotExist
+                is_available = "true"
+        return HttpResponse(is_available)
+    raise Http404
+
 @user_passes_test(lambda u: u.is_authenticated)
 def user_stats(request):
     user_login_data = UserLoginDatetime.objects.filter(user_name=request.user)

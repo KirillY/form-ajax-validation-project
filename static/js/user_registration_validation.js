@@ -31,7 +31,8 @@ $(document).ready(function() {
          },
          email: {
              required: true,
-             email: true
+             email: true,
+             remote: "/user/check_email/"
          },
          password1: {
              minlength: 5
@@ -53,7 +54,8 @@ $(document).ready(function() {
          },
          email: {
               required: "Необходимо ввести email",
-              email: "Введите корректный e-mail"
+              email: "Введите корректный e-mail",
+              remote: "Человек с таким электронным адресом уже зарегистрирован"
          },
          password1: {
              required: "Необходимо ввести пароль",
