@@ -51,7 +51,7 @@ def check_nickname(request):
     if request.is_ajax():
         is_available = "false"
         if request.is_ajax():
-            username = request.GET.get("username") # get username from the request QueryDict
+            username = request.POST.get("username") # get username from the request QueryDict
             try:
                 User.objects.get_by_natural_key(username)
             except ObjectDoesNotExist: # import ObjectDoesNotExist
@@ -69,7 +69,7 @@ def check_email(request):
     if request.is_ajax():
         is_available = "false"
         if request.is_ajax():
-            email = request.GET.get("email") # get email from the request QueryDict
+            email = request.POST.get("email") # get email from the request QueryDict
             try:
                 # User.objects.get_by_natural_key(email)
                 User.objects.get(email=email)

@@ -19,7 +19,14 @@ $(document).ready(function() {
          username: {
              required: true,
              letterfirstonly: true,
-             remote: "/user/check_nickname/"
+             remote: {
+                url:"/user/check_nickname/",
+                type:"post", // GET method is used by default
+                data: { // form data is sent by default, but we need to specify csrf, reassigning the username
+                    csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                    username: function() { return $( "#id_username" ).val(); }
+                    }
+            }
          },
          first_name: {
              required: false,
@@ -32,7 +39,14 @@ $(document).ready(function() {
          email: {
              required: true,
              email: true,
-             remote: "/user/check_email/"
+             remote: {
+                url:"/user/check_email/",
+                type:"post",
+                data: {
+                    csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                    email: function() { return $( "#id_email" ).val(); }
+                    }
+            }
          },
          password1: {
              minlength: 5
