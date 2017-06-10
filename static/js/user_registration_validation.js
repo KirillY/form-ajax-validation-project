@@ -1,19 +1,7 @@
-////var csrftoken = $.cookie('csrftoken');
-//var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
-//
-//function csrfSafeMethod(method) {
-//    // these HTTP methods do not require CSRF protection
-//    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-//}
-//
-//$.ajaxSetup({
-//    beforeSend: function(xhr, settings) {
-//        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-//            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-//        }
-//    }
-//});
+// # Using jQuery validation plugin #
+// Source: http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js
 
+// ### Additional validation methods ###
 // true if first symbol is a-z or A-Z letter
 jQuery.validator.addMethod("rulettersonly", function(value, element) {
   return this.optional(element) || /^[а-я]+$/i.test(value);
@@ -24,12 +12,14 @@ jQuery.validator.addMethod("letterfirstonly", function(value, element) {
   return this.optional(element) || /^[a-z]\w*$/i.test(value);
 }, "First symbol letter only please");
 
+// ### Validation rules ###
 $(document).ready(function() {
-    $('#user-form').validate({ //address to user-form
+    $('#user-form').validate({ //address to #user-form in registration.html
     rules: {
          username: {
              required: true,
-             letterfirstonly: true
+             letterfirstonly: true,
+             remote: "/user/check_nickname/"
          },
          first_name: {
              required: false,
@@ -50,7 +40,8 @@ $(document).ready(function() {
      messages: {
          username: {
              required: "Необходимо ввести никнейм",
-             letterfirstonly: "Никнейм должен начинаться с буквы, остальные символы - буквы или цифры"
+             letterfirstonly: "Никнейм должен начинаться с буквы, остальные символы - буквы или цифры",
+             remote: "Человек с таким никнеймом уже зарегистрирован"
          },
          first_name: {
              required: false,

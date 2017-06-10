@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.contrib import auth
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from UserManagementApp.forms import MyRegistrationForm
 from django.contrib.auth.models import User
 from UserManagementApp.models import UserLoginDatetime
 from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def update_user_last_login_datetime(request):
@@ -40,6 +41,23 @@ def login(request):
             # return HttpResponseRedirect("/", {'errors': True}) #it's not possible to pass any arguments than path ('/') to HttpResponseRedirect
     raise Http404
 
+def check_nickname(request):
+    '''
+    check if username (nickname) is available in existing database
+    :param request: AJAX request
+    :return: "true" in the response body if username is available, "false" otherwise
+    '''
+    # print(request.GET)
+    if request.is_ajax():
+        is_available = "false"
+        if request.is_ajax():
+            username = request.GET.get("username") # get username from the request QueryDict
+            try:
+                User.objects.get_by_natural_key(username)
+            except ObjectDoesNotExist: # import ObjectDoesNotExist
+                is_available = "true"
+        return HttpResponse(is_available)
+    raise Http404
 
 @user_passes_test(lambda u: u.is_authenticated)
 def user_stats(request):
@@ -65,30 +83,30 @@ def registration(request):
     return render(request, 'registration.html', context) # return template with a form without arguments
 
 
-def create_user(request, user_id=None):
-    """
-    Создает Пользователя(User)
-    Или редактирует существующего, если указан  user_id
-    """
-    if request.is_ajax():
-        print('user_id = ', user_id)
-        if not user_id:
-            print('Not user_id')
-            user = User(request.POST)
-        else:
-            user = get_object_or_404(User, id=user_id)
-            user = UserChangeForm(request.POST or None, instance=user)
-        if user.is_valid():
-            user.save()
-            users = User.objects.all()
-            html = loader.render_to_string('inc-users_list.html', {'users': users}, request=request)
-            data = {'errors': False, 'html': html}
-            return JsonResponse(data)
-        else:
-            errors = user.errors.as_json()
-            return JsonResponse({'errors': errors})
-
-    raise Http404
+# def create_user(request, user_id=None):
+#     """
+#     Создает Пользователя(User)
+#     Или редактирует существующего, если указан  user_id
+#     """
+#     if request.is_ajax():
+#         print('user_id = ', user_id)
+#         if not user_id:
+#             print('Not user_id')
+#             user = User(request.POST)
+#         else:
+#             user = get_object_or_404(User, id=user_id)
+#             user = UserChangeForm(request.POST or None, instance=user)
+#         if user.is_valid():
+#             user.save()
+#             users = User.objects.all()
+#             html = loader.render_to_string('inc-users_list.html', {'users': users}, request=request)
+#             data = {'errors': False, 'html': html}
+#             return JsonResponse(data)
+#         else:
+#             errors = user.errors.as_json()
+#             return JsonResponse({'errors': errors})
+#
+#     raise Http404
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_page(request):
