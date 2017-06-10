@@ -81,6 +81,14 @@ $(document).ready(function() {
          errorPlacement: function(error) {
              $("#response").html(error);
          }
-      }
+      },
     });
+
+//    $('#user-form input').on('keyup blur', function () { // fires on every keyup & blur
+//        if ($('#user-form').valid()) {                   // checks form for validity
+//            $('button.btn').prop('disabled', false);        // enables button
+//        } else {
+//            $('button.btn').prop('disabled', 'disabled');   // disables button
+//        }
+//    });
 });

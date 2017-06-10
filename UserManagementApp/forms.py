@@ -8,11 +8,11 @@ class MyRegistrationForm(UserCreationForm):
         super(UserCreationForm, self).__init__(*args, **kwargs) # override class
         self.fields.pop('password2') # remove default password2 field from the form
         # self.fields['password1'].label = "Пароль" # more visual to override with other class variables below
-        self.fields['username'].widget.attrs['placeholder'] = 'Begin with an English letter'
-        self.fields['email'].widget.attrs['placeholder'] = 'Valid email address'
-        self.fields['first_name'].widget.attrs['placeholder'] = 'Russian letters only'
-        self.fields['last_name'].widget.attrs['placeholder'] = 'Russian letters only'
-        self.fields['password1'].widget.attrs['placeholder'] = 'More than 5 symbols'
+        self.fields['username'].widget.attrs['placeholder'] = 'Только английские буквы и цифры'
+        self.fields['email'].widget.attrs['placeholder'] = 'example@email.com'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Только русские буквы'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Только русские буквы'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Не менее 5 символов'
 
     username = forms.CharField(required=True, label="Никнейм")
     email = forms.EmailField(required=True, label="Электронная почта")
