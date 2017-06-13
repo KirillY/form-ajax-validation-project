@@ -102,7 +102,7 @@ def registration(request):
         context = {'form': form} # create context with form data and errors
         return render(request, 'registration.html', context)  # render data and errors on the page
     context = {'form': MyRegistrationForm()} # if user request registration form page first time with GET request
-    return render(request, 'registration.html', context) # return template with a form without arguments
+    return render(request, 'registration.html', context) # return template with a form without any arguments
 
 
 # def create_user(request, user_id=None):

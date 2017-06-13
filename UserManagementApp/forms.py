@@ -18,11 +18,11 @@ class MyRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Электронная почта")
     first_name = forms.CharField(required=False, label="Имя")
     last_name = forms.CharField(required=False, label="Фамилия")
-    password1 = forms.CharField(required=True, label="Пароль")
+    password1 = forms.CharField(required=True, label="Пароль", widget=forms.PasswordInput())
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email') # define from fields
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1') # define from fields
 
     def save(self, commit=True):
         user = super(MyRegistrationForm, self).save(commit=False)
