@@ -52,7 +52,7 @@ $(document).ready(function() {
              minlength: 5
          }
      },
-     messages: {
+    messages: {
          username: {
              required: "Необходимо ввести никнейм",
              letterfirstonly: "Никнейм должен начинаться с буквы, остальные символы - буквы или цифры",
@@ -81,10 +81,14 @@ $(document).ready(function() {
          errorPlacement: function(error) {
              $("#response").html(error);
          }
-      },
+     },
+    submitHandler: function(form) { // <- pass 'form' argument in
+            $("button.btn").attr("disabled", true);
+            form.submit();
+        }
     });
-
-//    $('#user-form input').on('keyup blur', function () { // fires on every keyup & blur
+// disable submit button !with side effect - cancel 'lazy typing'
+//    $('#user-form input').on('keyup', function () { // fires on every keyup & blur
 //        if ($('#user-form').valid()) {                   // checks form for validity
 //            $('button.btn').prop('disabled', false);        // enables button
 //        } else {
