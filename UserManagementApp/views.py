@@ -88,6 +88,8 @@ def logout(request):
     auth.logout(request)
     return render(request, "logout.html")
 
+def reg_complete(request):
+    return render(request, "reg_complete.html")
 
 def registration(request):
     if request.method == 'POST':  # if user POST from the registration page
@@ -95,7 +97,8 @@ def registration(request):
         print(request.POST)
         if form.is_valid():
             form.save() # put form data into database
-            return HttpResponseRedirect('/') # render index.html
+            # return HttpResponseRedirect('/') # render index.html
+            return HttpResponseRedirect('/user/reg_complete/')
         context = {'form': form} # create context with form data and errors
         return render(request, 'registration.html', context)  # render data and errors on the page
     context = {'form': MyRegistrationForm()} # if user request registration form page first time with GET request

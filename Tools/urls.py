@@ -30,7 +30,8 @@ urlpatterns += [
     url(r'^user/registration/$', registration, name='registration'),
     url(r'^user/stats/$', user_stats, name='user_stats'),
     url(r'^user/check_nickname/$', check_nickname, name='check_nickname'),
-    url(r'^user/check_email/$', check_email, name='check_email')
+    url(r'^user/check_email/$', check_email, name='check_email'),
+    url(r'^user/reg_complete/$', reg_complete, name='reg_complete')
 ]
 # admin page
 urlpatterns += [
