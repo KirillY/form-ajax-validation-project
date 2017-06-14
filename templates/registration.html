@@ -13,9 +13,19 @@
 
 {% block content %}
     <div class="container">
-        <form method="post" role="form" action="{% url 'registration' %}">
+        <form method="post" id="user-form" role="form" action="{% url 'registration' %}">
             {% include "included-reg-form.html" %}
-            <input type="submit" value="Create new account">
+            <button type="submit" class="btn">Готово</button>
+            <!--<input type="submit" value="Create the account">-->
         </form>
     </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <!--<script src="/static/js/jquery-2.1.4.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <script src="/static/js/user_registration_validation.js"></script>
 {% endblock %}

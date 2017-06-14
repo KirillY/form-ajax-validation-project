@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.contrib import auth
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from UserManagementApp.forms import MyRegistrationForm
 from django.contrib.auth.models import User
 from UserManagementApp.models import UserLoginDatetime
 from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def update_user_last_login_datetime(request):
@@ -40,6 +41,42 @@ def login(request):
             # return HttpResponseRedirect("/", {'errors': True}) #it's not possible to pass any arguments than path ('/') to HttpResponseRedirect
     raise Http404
 
+def check_nickname(request):
+    '''
+    check if username (nickname) is available in existing database
+    :param request: AJAX request
+    :return: "true" in the response body if username is available, "false" otherwise
+    '''
+    # print(request.GET)
+    if request.is_ajax():
+        is_available = "false"
+        if request.is_ajax():
+            username = request.POST.get("username") # get username from the request QueryDict
+            try:
+                User.objects.get_by_natural_key(username)
+            except ObjectDoesNotExist: # import ObjectDoesNotExist
+                is_available = "true"
+        return HttpResponse(is_available)
+    raise Http404
+
+def check_email(request):
+    '''
+    check if email is available in existing database
+    :param request: AJAX request
+    :return: "true" in the response body if email is available, "false" otherwise
+    '''
+    # print(request.GET)
+    if request.is_ajax():
+        is_available = "false"
+        if request.is_ajax():
+            email = request.POST.get("email") # get email from the request QueryDict
+            try:
+                # User.objects.get_by_natural_key(email)
+                User.objects.get(email=email)
+            except ObjectDoesNotExist: # import ObjectDoesNotExist
+                is_available = "true"
+        return HttpResponse(is_available)
+    raise Http404
 
 @user_passes_test(lambda u: u.is_authenticated)
 def user_stats(request):
@@ -51,6 +88,8 @@ def logout(request):
     auth.logout(request)
     return render(request, "logout.html")
 
+def reg_complete(request):
+    return render(request, "reg_complete.html")
 
 def registration(request):
     if request.method == 'POST':  # if user POST from the registration page
@@ -58,12 +97,38 @@ def registration(request):
         print(request.POST)
         if form.is_valid():
             form.save() # put form data into database
-            return HttpResponseRedirect('/') # render index.html
+            # return HttpResponseRedirect('/') # render index.html
+            return HttpResponseRedirect('/user/reg_complete/')
         context = {'form': form} # create context with form data and errors
         return render(request, 'registration.html', context)  # render data and errors on the page
     context = {'form': MyRegistrationForm()} # if user request registration form page first time with GET request
-    return render(request, 'registration.html', context) # return template with a form without arguments
+    return render(request, 'registration.html', context) # return template with a form without any arguments
 
+
+# def create_user(request, user_id=None):
+#     """
+#     Создает Пользователя(User)
+#     Или редактирует существующего, если указан  user_id
+#     """
+#     if request.is_ajax():
+#         print('user_id = ', user_id)
+#         if not user_id:
+#             print('Not user_id')
+#             user = User(request.POST)
+#         else:
+#             user = get_object_or_404(User, id=user_id)
+#             user = UserChangeForm(request.POST or None, instance=user)
+#         if user.is_valid():
+#             user.save()
+#             users = User.objects.all()
+#             html = loader.render_to_string('inc-users_list.html', {'users': users}, request=request)
+#             data = {'errors': False, 'html': html}
+#             return JsonResponse(data)
+#         else:
+#             errors = user.errors.as_json()
+#             return JsonResponse({'errors': errors})
+#
+#     raise Http404
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_page(request):

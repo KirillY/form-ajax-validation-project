@@ -19,16 +19,21 @@ from MainApp.views import *
 from UserManagementApp.views import *
 from django.http import HttpResponse
 
+# index page
 urlpatterns = [
     url(r'^$', main, name='main')
 ]
+# user management
 urlpatterns += [
     url(r'^user/login/$', login, name='login'),
     url(r'^user/logout/$', logout, name='logout'),
     url(r'^user/registration/$', registration, name='registration'),
-    url(r'^user/stats/$', user_stats, name='user_stats')
+    url(r'^user/stats/$', user_stats, name='user_stats'),
+    url(r'^user/check_nickname/$', check_nickname, name='check_nickname'),
+    url(r'^user/check_email/$', check_email, name='check_email'),
+    url(r'^user/reg_complete/$', reg_complete, name='reg_complete')
 ]
-
+# admin page
 urlpatterns += [
     url(r'^admin/$', admin_page),
     url(r'^admin/delete/user/(\d+)$', delete_user)
