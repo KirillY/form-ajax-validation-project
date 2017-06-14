@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="{% static 'img/favicon.jpg' %}">
 
     {% block title %}
         <title>Base template</title>
     {% endblock %}
 
     {% block css %}
-        <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     {% endblock %}
+
+
 </head>
 
 <body>

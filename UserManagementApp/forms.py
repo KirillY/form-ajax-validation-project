@@ -18,7 +18,7 @@ class MyRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Электронная почта")
     first_name = forms.CharField(required=False, label="Имя")
     last_name = forms.CharField(required=False, label="Фамилия")
-    password1 = forms.CharField(required=True, label="Пароль", widget=forms.PasswordInput())
+    # password1 = forms.CharField(required=True, label="Пароль", widget=forms.PasswordInput())
 
     class Meta:
         model = User
